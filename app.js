@@ -17,62 +17,74 @@ Otros requisitos:
 Cuando se cambien el número de tarjeta automáticamente si el CVV esta relleno se limpiará el campo.
 */
 
-var msg = "";
 
-function guardar(){
-	var digitos = validarIBAN();
-	var numeros = validarDatos();
-	var tarjeta = comprobarTarjeta();
-	var ccv = comprobarCCV();
-	alert(msg);
-}
+const nacionalidad = document.getElementById("nacionalidad");
+let numero = document.getElementById("numero");
+let tarjeta = document.getElementById("tarjeta");
+let ccv = document.getElementById("ccv");
+const mensaje = document.getElementById('mensaje')
 
-
-//Funcion para comprobar los 4 primeros digitos del IBAN son ES76 O ES78
 function validarIBAN() {
-	var nacionalidad = document.getElementById("nacionalidad").value;
-	// Comprobar si el IBAN es válido
-	if (nacionalidad == "ES76" || nacionalidad == "ES78") {
-		// IBAN válido, cambia el color del campo a verde si estaba en rojo
+	if (nacionalidad.value == "ES76" || nacionalidad.value == "ES78") {
 		document.getElementById("nacionalidad").style.color = "green";
 		return true;
 	} else {
-		// IBAN inválido, cambia el color del campo a rojo
 		document.getElementById("nacionalidad").style.color = "red";
 		return false;
 	}
 }
 
 function validarDatos() {
-	var numero = document.getElementById("numero").value;
-	var expresionRegular = /^[0-9]{20}$/; // Expresión regular para 20 dígitos
-	
-	if (expresionRegular.test(numero) == true) {
-		return true;
-	} else {
-		msg += "Revisa los numeros\n";
-		return false;
-	}
+    const expresionRegular = /^[0-9]{20}$/;
+    return expresionRegular.test(numero.value);
 }
 
-function comprobarTarjeta(){
-	var tarjeta = document.getElementById("tarjeta").value;
-	var expresionRegular = /^[0-9]{16}$/; // Expresión regular para 16 dígitos
-	if (expresionRegular.test(tarjeta) == true) {
-		return true;
-	} else {
-		msg += "Revisa los numeros de tu tarjeta\n";
-		return false;
-	}
+function comprobarTarjeta() {
+    const expresionRegular = /^[0-9]{16}$/;
+    return expresionRegular.test(tarjeta.value);
 }
 
-function comprobarCCV(){
-	var ccv = document.getElementById("ccv").value;
-	var expresionRegular = /^[0-9]{3}$/; // Expresión regular para 3 dígitos
-	if (expresionRegular.test(ccv) == true) {
-		return true;
-	} else {
-		msg += "Revisa los verificación de su CCV\n";
-		return false;
-	}
+function comprobarCCV() {
+    const expresionRegular = /^[0-9]{3}$/;
+    return expresionRegular.test(ccv.value);
 }
+
+function guardar() {
+	let msg = "";
+    if (validarIBAN() != true) {
+        msg += "IBAN inválido\n";
+    }
+    if (validarDatos() != true) {
+        msg += "Número de cuenta inválido\n";
+    }
+    if (comprobarTarjeta() != true) {
+        msg += "Número de tarjeta inválido\n";
+    }
+    if (comprobarCCV() != true) {
+        msg += "CCV inválido\n";
+    }
+
+	if (msg === "") {
+        mensaje.textContent = "Valoración Correcta";
+    }else{
+		mensaje.textContent = msg;
+	}
+
+    
+}
+
+// Agrega eventos de cambio a los campos de entrada
+nacionalidad.addEventListener('change', validarIBAN);
+numero.addEventListener('change', validarDatos);
+tarjeta.addEventListener('change', comprobarTarjeta);
+ccv.addEventListener('change', comprobarCCV);
+tarjeta.addEventListener('change', function() {
+    if (ccv.value !== '') {
+        ccv.value = '';
+    }
+    comprobarTarjeta();
+});
+
+// Agrega un evento de clic al botón "Enviar" para mostrar el mensaje
+const enviarButton = document.querySelector('button');
+enviarButton.addEventListener('click', guardar);

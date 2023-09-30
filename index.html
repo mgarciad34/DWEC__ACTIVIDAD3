@@ -4,23 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banco</title>
-    <script src="app.js"></script>
 </head>
 <body>
-    <div>
-        IBAN: 
-        <input type="text" size="4"  maxlength="4" id="nacionalidad">
-        <input type="text" size="20" maxlength="20" id ="numero">
-        <br><br>
-        Nº Tarjeta: 
-        <input type="text" size="16" maxlength="16" id="tarjeta">
-        <br><br>
-        CCV: 
-        <input type="text" size="37" maxlength="3" id="ccv">
-
-        <button onclick="guardar()">Enviar</button>
+    <div class="menu">
+        <ul>
+            <li>Tarjeta</li>
+            <li>Datos</li>
+            <li>Movimientos</li>
+        </ul>
     </div>
 
-    
+    <label for="nacionalidad">IBAN:</label>
+    <input type="text" size="4" id="nacionalidad">
+    <input type="text" size="20" maxlength="20" id="numero">
+    <br><br>
+    <label for="tarjeta">Nº Tarjeta:</label>
+    <input type="text" size="16" maxlength="16" id="tarjeta">
+    <br><br>
+    <label for="ccv">CCV:</label>
+    <input type="text" size="3" maxlength="3" id="ccv">
+
+    <button onclick="guardar()">Enviar</button>
+    <br>
+
+    <p id="mensaje"></p>
+
+    <script src="app.js"></script>
 </body>
 </html>
